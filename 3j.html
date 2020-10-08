@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r120/three.min.js"></script>
+    <title>Stats-212</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
+      body{
+        margin: 0;
+        overflow: hidden;
+      }
+
+      canvas{
+        background: red;
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <canvas id="myCanvas"></canvas>
+    <script>
+      var xpos = -280;
+      var ypos = 30;
+
+
+    //create renderer
+      var renderer = new THREE.WebGLRenderer({canvas: document.getElementById('myCanvas'), antialias: true});
+      renderer.setClearColor(0x282222);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      // create camera
+      var camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 3000);
+      camera.position.z = 1000;
+      camera.position.y = 165;
+      //create scene
+      var scene = new THREE.Scene();
+
+      //lights
+
+      var spotLight1 = new THREE.SpotLight(0xFFCCC2, 1);
+      spotLight1.penumbra = 1.0;
+      spotLight1.position.set(-200, 480, 0);
+      scene.add(spotLight1);
+
+      var spotLight2 = new THREE.SpotLight(0xFFCCC2, 1);
+      spotLight2.penumbra = 1.0;
+      spotLight2.position.set(200, 480, 0);
+      scene.add(spotLight2);
+
+
+      // 3D assets
+
+      var ground = new THREE.BoxGeometry(800, 10, 400);
+      var groundMaterial = new THREE.MeshStandardMaterial({
+      color: 0xC1B446,
+      roughness: 0.5,
+      metalness: 0.9,
+      });
+
+      var groundMesh = new THREE.Mesh(ground, groundMaterial);
+
+      var pole = new THREE.BoxGeometry(5, 180, 5);
+      var poleMaterial = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
+      var poleMesh = new THREE.Mesh(pole, poleMaterial);
+      poleMesh.position.set(380, 90, 0);
+
+      var poleMesh1 = new THREE.Mesh(pole, poleMaterial);
+      poleMesh1.position.set(-380, 90, 0);
+
+      var backboard = new THREE.BoxGeometry(2, 50, 90);
+      var backMaterial = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
+      var backMesh = new THREE.Mesh(backboard, backMaterial);
+      backMesh.position.set(-377.5, 160, 0);
+
+      var backMesh1 = new THREE.Mesh(backboard, backMaterial);
+      backMesh1.position.set(377.5, 160, 0);
+
+      var hoop = new THREE.TorusGeometry(10, 1, 20, 80);
+      var hoopMaterial = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
+      var hoopMesh = new THREE.Mesh(hoop, hoopMaterial);
+      hoopMesh.position.set(-368, 145, 0);
+      hoopMesh.rotation.set(7.9, 0, 0);
+
+      var hoopMesh1 = new THREE.Mesh(hoop, hoopMaterial);
+      hoopMesh1.position.set(368, 145, 0);
+      hoopMesh1.rotation.set(7.9, 0, 0);
+
+      scene.add(groundMesh);
+      scene.add(poleMesh);
+      scene.add(poleMesh1);
+      scene.add(backMesh);
+      scene.add(backMesh1);
+      scene.add(hoopMesh);
+      scene.add(hoopMesh1);
+
+      // ball
+
+      var ball = new THREE.SphereGeometry(10, 32, 32);
+      var ballMaterial = new THREE.MeshLambertMaterial({color: 0xDD6600});
+
+      // line between balls
+
+      for (i = 0; i < 10; i++){
+        var ballMesh = new THREE.Mesh(ball, ballMaterial);
+        ballMesh.position.set(xpos + i*60.5, ypos, 0);
+        scene.add(ballMesh);
+      }
+
+
+      renderer.render(scene, camera);
+
+
+    </script>
+  </body>
+</html>
